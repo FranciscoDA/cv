@@ -10,6 +10,7 @@ jobs:
       - name: Compile LaTeX document
         uses: xu-cheng/latex-action@v2
         with:
+          latexmk_use_lualatex: true
           args: "-usepretex=\\def\\outputlangen{1}\\def\\outputlanges{1}"
           root_file: cv.tex
       - name: Upload PDF file
