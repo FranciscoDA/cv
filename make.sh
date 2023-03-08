@@ -1,10 +1,9 @@
 #! /usr/bin/bash
 
-for output_dir in en+es en es ; do 
-	mkdir -p $output_dir
+for output_lang in en+es en es ; do 
 	commands=""
 	for lang in en es ; do
-		if [[ $output_dir =~ $lang ]]; then
+		if [[ $output_lang =~ $lang ]]; then
 			val=1
 		else
 			val=''
@@ -12,11 +11,7 @@ for output_dir in en+es en es ; do
 		commands="\\def\\outputlang$lang{$val}$commands"
 	done
 	echo $commands
-	if latexmk -outdir="$output_dir" -usepretex="$commands" -lualatex ;
-	then
-		cp "$output_dir/cv.pdf" "./cv altoe francisco ($output_dir).pdf"
-	else
+	if ! latexmk -c -jobname="cv altoe francisco ($output_lang)" -usepretex="$commands" -lualatex ; then
 		break
 	fi
 done
-

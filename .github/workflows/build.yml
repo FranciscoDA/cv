@@ -4,6 +4,9 @@ on:
 jobs:
   build_latex:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        output-lang: [en, es, en+es]
     steps:
       - name: Set up Git repository
         uses: actions/checkout@v3
@@ -11,10 +14,10 @@ jobs:
         uses: xu-cheng/latex-action@v2
         with:
           latexmk_use_lualatex: true
-          args: "-usepretex=\\def\\outputlangen{1}\\def\\outputlanges{1}"
+          args: -usepretex=\def\outputlangen{1}\def\outputlanges{1} -jobname=cv_altoe_francisco_(${{ matrix.output-lang }})
           root_file: cv.tex
-      - name: Upload PDF file
+      - name: Upload PDF files
         uses: actions/upload-artifact@v3
         with:
-          name: cv altoe francisco (en+es).pdf
-          path: cv.pdf
+          name: cv_altoe_francisco
+          path: cv_altoe_francisco_(${{ matrix.output-lang}}).pdf
