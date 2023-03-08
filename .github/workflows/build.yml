@@ -7,6 +7,16 @@ jobs:
     strategy:
       matrix:
         output-lang: [en, es, en+es]
+        include:
+          - output-lang: en
+            outputlanges: ""
+            outputlangen: "1"
+          - output-lang: es
+            outputlanges: "1"
+            outputlangen: ""
+          - output-lang: en+es
+            outputlanges: "1"
+            outputlangen: "1"
     steps:
       - name: Set up Git repository
         uses: actions/checkout@v3
@@ -14,7 +24,7 @@ jobs:
         uses: xu-cheng/latex-action@v2
         with:
           latexmk_use_lualatex: true
-          args: -usepretex=\def\outputlangen{1}\def\outputlanges{1} -jobname=cv_altoe_francisco_(${{ matrix.output-lang }})
+          args: -usepretex=\def\outputlangen{${{ matrix.outputlangen }}}\def\outputlanges{${{ matrix.outputlanges }}} -jobname=cv_altoe_francisco_(${{ matrix.output-lang }})
           root_file: cv.tex
       - name: Upload PDF files
         uses: actions/upload-artifact@v3
