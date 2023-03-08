@@ -1,0 +1,223 @@
+\documentclass[12pt,a4paper,sans]{moderncv}        % possible options include font size ('10pt', '11pt' and '12pt'), paper size ('a4paper', 'letterpaper', 'a5paper', 'legalpaper', 'executivepaper' and 'landscape') and font family ('sans' and 'roman')
+
+\moderncvstyle{banking}
+\moderncvcolor{blue}
+
+\newcommand{\mapmarkersocialsymbol}{{\small\faMapMarker}~}
+\RenewDocumentCommand{\social}{O{}O{}m}{%
+  \ifthenelse{\equal{#2}{}}%
+    {%
+      \ifthenelse{\equal{#1}{linkedin}}  {\collectionadd[linkedin]{socials} {\protect\httplink[#3]{www.linkedin.com/in/#3}}}  {}%
+      \ifthenelse{\equal{#1}{xing}}      {\collectionadd[xing]{socials}     {\protect\httplink[#3]{www.xing.com/profile/#3}}} {}%
+      \ifthenelse{\equal{#1}{twitter}}   {\collectionadd[twitter]{socials}  {\protect\httplink[#3]{www.twitter.com/#3}}}      {}%
+      \ifthenelse{\equal{#1}{github}}    {\collectionadd[github]{socials}   {\protect\httplink[#3]{www.github.com/#3}}}       {}%
+      \ifthenelse{\equal{#1}{gitlab}}    {\collectionadd[gitlab]{socials}   {\protect\httplink[#3]{www.gitlab.com/#3}}}       {}%
+      \ifthenelse{\equal{#1}{mapmarker}} {\collectionadd[mapmarker]{socials}   {#3}}                                             {}%
+      \ifthenelse{\equal{#1}{skype}}     {\collectionadd[skype]{socials}    {#3}}                                             {}%
+    }
+    {\collectionadd[#1]{socials}{\protect\httplink[#3]{#2}}}
+}
+
+\newcommand*{\cventryx}[7][.25em]{
+  \begin{tabular*}{\maincolumnwidth}{l@{\extracolsep{\fill}}r}%
+    %{\bfseries #4} & {\bfseries #5}\\%
+    {\itshape #3\ifthenelse{\equal{#6}{}}{}{, #6}} & {\itshape #2}\\%
+  \end{tabular*}%
+  \ifx&#7&%
+  \else{\\%
+    \begin{minipage}{\maincolumnwidth}%
+      \small#7%
+    \end{minipage}}\fi%
+  \par\addvspace{#1}}
+
+\newcommand{\separateCopy}{
+  \addtocounter{languageCounter}{1}
+  \ifnum\value{languageCounter}>1
+    \clearpage
+  \fi
+}
+
+
+\nopagenumbers{}                                  % uncomment to suppress automatic page numbering for CVs longer than one page
+
+% character encoding
+%\usepackage[utf8]{inputenc}                       % if you are not using xelatex ou lualatex, replace by the encoding you are using
+%\usepackage{CJKutf8}                              % if you need to use CJK to typeset your resume in Chinese, Japanese or Korean
+
+% adjust the page margins
+\usepackage[scale=0.75, top=2cm, bottom=1cm, left=1.5cm, right=1.5cm]{geometry}
+\recomputelengths
+%\setlength{\hintscolumnwidth}{3cm}                % if you want to change the width of the column with the dates
+%\setlength{\makecvtitlenamewidth}{10cm}           % for the 'classic' style, if you want to force the width allocated to your name and avoid line breaks. be careful though, the length is normally calculated to avoid any overlap with your personal info; use this at your own typographical risks...
+
+% personal data
+\name{Francisco}{Altoe}
+\title{Full Stack Developer}                           % optional, remove / comment the line if not wanted
+%\address{Buenos Aires}{Argentina}%{}     % optional, remove / comment the line if not wanted; the "postcode city" and "country" arguments can be omitted or provided empty
+\phone[mobile]{+54 9 11 6045-1969}                    % optional, remove / comment the line if not wanted; the optional "type" of the phone can be "mobile" (default), "fixed" or "fax"
+\social[mapmarker]{Buenos Aires, Argentina}
+\email{francisco@altoe.com.ar}                    % optional, remove / comment the line if not wanted
+%\homepage{www.johndoe.com}                        % optional, remove / comment the line if not wanted
+\social[linkedin]{franciscoaltoe}                  % optional, remove / comment the line if not wanted
+%\social[twitter]{jdoe}                            % optional, remove / comment the line if not wanted
+\social[github]{franciscoda}                       % optional, remove / comment the line if not wanted
+
+%\extrainfo{extra info}                % optional, remove / comment the line if not wanted
+%\photo[64pt][0.4pt]{picture}                      % optional, remove / comment the line if not wanted; '64pt' is the height the picture must be resized to, 0.4pt is the thickness of the frame around it (put it to 0pt for no frame) and 'picture' is the name of the picture file
+%\quote{Some quote}                                % optional, remove / comment the line if not wanted
+
+% bibliography adjustements (only useful if you make citations in your resume, or print a list of publications using BibTeX)
+%   to show numerical labels in the bibliography (default is to show no labels)
+%\makeatletter\renewcommand*{\bibliographyitemlabel}{\@biblabel{\arabic{enumiv}}}\makeatother
+%   to redefine the bibliography heading string ("Publications")
+%\renewcommand{\refname}{Articles}
+
+% bibliography with mutiple entries
+%\usepackage{multibib}
+%\newcites{book,misc}{{Books},{Others}}
+%----------------------------------------------------------------------------------
+%            content
+%----------------------------------------------------------------------------------
+\begin{document}
+%\begin{CJK*}{UTF8}{gbsn}                          % to typeset your resume in Chinese using CJK
+%-----       resume       ---------------------------------------------------------
+
+\def\myage{28}
+
+\newcommand{\Languages}{Python, Bash, SQL, C++, Javascript, TypeScript, HTML, CSS.}
+\newcommand{\Frameworks}{Django, DRF, Celery, Channels, Flask, React, CUDA, ZeroMQ.}
+\newcommand{\Tools}{Git, Gitlab CI, Github Workflows, Docker/Compose, Kubernetes.}
+\newcommand{\CloudServices}{AWS: EC2, S3, CodeArtifact, RDS, ECR, SystemsManager.}
+\newcommand{\Oses}{Linux, Windows.}
+\newcommand{\WebThree}{Peatio, Hummingbot, Web3py, ethers, Ethereum JSON-RPC, ERC20, Uniswap V2.}
+\newcounter{languageCounter}
+
+
+\if\outputlangen1
+\separateCopy
+\makecvtitle
+\cvitemwithcomment{Birth Date}{August 13th, 1994}{Age \myage}
+\cvitemwithcomment{Nationality}{Argentine}{}
+%\cvitemwithcomment{CUIT}{20-38404113-3}{}
+
+\section{Education}
+\cventry{2013--Present}{Licenciate in Information Systems}{Universidad Nacional de Luján}{University}{\textit{37/42 subjects}}{}{}{}
+\cventryx{2013--2017}{Analyst Programmer (BSc.)}{Universidad Nacional de Luján}{}{}{}
+\cventry{2010--2013}{Business Administration}{Colegio Hermanos Maristas}{Highschool}{}{}  % arguments 3 to 6 can be left empty
+
+
+\section{Experience}
+\cventry{Feb 2022--Present}{Algorithmic Trading Tech Lead}{\raisebox{-0.15\height}{\includegraphics[width=2.2em]{/home/francisco/Documents/ieb/ieb-black.png}} Invertir en Bolsa}{Buenos Aires}{}{
+\begin{itemize}
+	\item API Integrations: Bloomberg BLPAPI, Realtick XAPI, Polygon.
+	\item FIX protocol certifications: ByMA, Bloomberg EMSX, Velocity/Logiciel.
+\end{itemize}
+\vspace{6pt}
+}
+
+\cventry{Jul 2021--Feb 2022}{Full Stack Developer}{\raisebox{-0.15\height}{\includegraphics[width=1.2em]{/home/francisco/Documents/mpf/escudo.png}} Ministerio Público Fiscal}{Buenos Aires}{}{
+\begin{itemize}
+	\item Police Report registration and notification system
+	\item SIAL: Logistics and Administrative system
+\end{itemize}
+\vspace{6pt}
+}
+
+\cventry{Jan 2021--Jul 2021}{Tech Lead}{\raisebox{-0.15\height}{\includegraphics[width=1.4em]{/home/francisco/Documents/buenbit/img/logo-buenbit-240x320.png}} Buenbit}{Buenos Aires}{}{
+\begin{itemize}
+	\item Core product developement (backend)
+\end{itemize}
+}
+\cventry{Mar 2019--Jan 2021}{Full Stack Developer}{}{}{}{
+\begin{itemize}
+	\item Cash payment API integration -- Rapipago
+	\item Banking API integration -- Banco Industrial
+\end{itemize}
+}
+
+
+
+\section{Languages}
+\cvitemwithcomment{English}{Advanced.}{}
+\cvitemwithcomment{Spanish}{Native.}{}
+
+\section{Skills}
+\cvitem{Programming languages}{\Languages}
+\cvitem{Frameworks and libraries}{\Frameworks}
+\cvitem{Tools}{\Tools}
+\cvitem{OSes}{\Oses}
+\cvitem{Cloud services}{\CloudServices}
+\cvitem{Web3}{\WebThree}
+
+\section{Open Source Projects (own or contributed to)}
+\cvitem{\href{https://github.com/franciscoda/coinage}{\faGithub\ Coinage}}{Cryptocurrency address validation module in Python}
+\cvitem{\href{https://github.com/franciscoda/redatam4r}{\faGithub\ redatam4r}}{Reading Latin American census databases (REDATAM) in R}
+\cvitem{\href{https://github.com/franciscoda/psvm}{\faGithub\ psvm}}{Sequential and parallel (CUDA) implementation of SVM classifiers}
+\cvitem{\href{https://github.com/openapoc/openapoc}{\faGithub\ OpenApoc}}{Opensource rebuild of the XCOM Apocalypse Engine \textit{(minor contributor)}}
+\fi
+
+
+\if\outputlanges1
+\separateCopy
+\makecvtitle
+
+\cvitemwithcomment{Fecha de Nacimiento}{13 de agosto de 1994}{\myage\ años}
+\cvitemwithcomment{CUIL}{20-38404113-3}{}
+
+\section{Educación}
+\cventry{2013--Presente}{Lic. en Sistemas de Información}{Universidad Nacional de Luján}{}{\textit{37/42 materias -- promedio 8,10}}{}{}{}
+\cventryx{2013--2017}{Analista Programador Universitario}{Universidad Nacional de Luján}{}{}{}
+\cventry{2010--2013}{Bachiller en Administración de Empresas}{Colegio Hermanos Maristas}{}{}{}  % arguments 3 to 6 can be left empty
+
+
+\section{Experiencia}
+
+\cventry{Feb 2022--Present}{Líder Técnico de Trading Algorítmico}{\raisebox{-0.15\height}{\includegraphics[width=2.2em]{/home/francisco/Documents/ieb/ieb-black.png}} Invertir en Bolsa}{Buenos Aires}{}{
+\begin{itemize}
+	\item Integraciones con APIs: Bloomberg BLPAPI, Realtick XAPI, Polygon.
+	\item Homologaciones FIX: ByMA, Bloomberg EMSX, Velocity/Logiciel.
+\end{itemize}
+\vspace{6pt}
+}
+
+\cventry{Jul 2021--Feb 2022}{Desarrollador Full Stack}{\raisebox{-0.15\height}{\includegraphics[width=1.2em]{/home/francisco/Documents/mpf/escudo.png}} Ministerio Público Fiscal}{Buenos Aires}{}{
+\begin{itemize}
+	\item Sistema de sumarios policiales
+	\item SIAL: Sistema de administración y logística
+\end{itemize}
+\vspace{6pt}
+}
+
+\cventry{Ene 2021--Jul 2021}{Líder Técnico}{\raisebox{-0.15\height}{\includegraphics[width=1.4em]{/home/francisco/Documents/buenbit/img/logo-buenbit-240x320.png}} Buenbit}{Buenos Aires}{}{
+\begin{itemize}
+	\item Desarrollo del core del producto (backend)
+\end{itemize}
+}
+\cventry{Mar 2019--Ene 2021}{Desarrollador Full Stack}{}{}{}{
+\begin{itemize}
+	\item Integración Servicio de Mensajería Estándar -- Rapipago
+	\item Integración APIBANK -- Banco Industrial
+\end{itemize}
+}
+
+\section{Idiomas}
+\cvitemwithcomment{Inglés}{Oral y Escrito. Nivel avanzado}{}
+\cvitemwithcomment{Español}{Nativo.}{}
+
+\section{Conocimientos y Habilidades}
+\cvitem{Lenguajes de programación}{\Languages}
+\cvitem{Frameworks y Bibliotecas}{\Frameworks}
+\cvitem{Tools}{\Tools}
+\cvitem{Sistemas Operativos}{\Oses}
+\cvitem{Servicios Cloud}{\CloudServices}
+\cvitem{Web3}{\WebThree}
+
+\section{Proyectos Open Source (propios o como contribuidor)}
+\cvitem{\href{https://github.com/franciscoda/coinage}{\faGithub\ Coinage}}{Módulo Python para validar de direcciones de criptomonedas}
+\cvitem{\href{https://github.com/franciscoda/redatam4r}{\faGithub\ redatam4r}}{Carga de bases de datos censales (REDATAM) en R}
+\cvitem{\href{https://github.com/franciscoda/psvm}{\faGithub\ psvm}}{Implementación secuencial y paralela (CUDA) de clasificadores SVM}
+\cvitem{\href{https://github.com/openapoc/openapoc}{\faGithub\ OpenApoc}}{Opensource rebuild of the XCOM Apocalypse Engine \textit{(contribuidor)}}
+\fi
+
+\end{document}
+
