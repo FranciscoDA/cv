@@ -2,7 +2,7 @@
 
 for output_dir in en+es en es ; do 
 	mkdir -p $output_dir
-	commands="\\input{cv.tex}"
+	commands=""
 	for lang in en es ; do
 		if [[ $output_dir =~ $lang ]]; then
 			val=1
@@ -12,10 +12,11 @@ for output_dir in en+es en es ; do
 		commands="\\def\\outputlang$lang{$val}$commands"
 	done
 	echo $commands
-	lualatex -recorder -output-directory="$output_dir" "$commands"
-	cp "$output_dir/cv.pdf" "./cv altoe francisco ($output_dir).pdf"
-	#lualatex -recorder -output-directory="$output_dir" \\def\\outputinenglish{1}\\def\\outputinspanish{1}\\input{$file}
-	#lualatex -recorder -output-directory="en" \\def\\outputinenglish{1}\\def\\outputinspanish{}\\input{$file}
-	#lualatex -recorder -output-directory="es" \\def\\outputinenglish{}\\def\\outputinspanish{1}\\input{$file}
+	if latexmk -outdir="$output_dir" -usepretex="$commands" -lualatex ;
+	then
+		cp "$output_dir/cv.pdf" "./cv altoe francisco ($output_dir).pdf"
+	else
+		break
+	fi
 done
 
