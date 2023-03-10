@@ -17,7 +17,7 @@ jobs:
           - output-lang: es
             outputlanges: "1"
             outputlangen: ""
-          - output-lang: en_es
+          - output-lang: en+es
             outputlanges: "1"
             outputlangen: "1"
     steps:
@@ -33,7 +33,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: cv_altoe_francisco
-          path: cv_altoe_francisco_${{ matrix.output-lang}}.pdf
+          path: cv_altoe_francisco_${{ matrix.output-lang }}.pdf
 
   publish_pdf:
     needs:
@@ -49,23 +49,41 @@ jobs:
           RELEASE_TITLE=$(date '+%Y-%m-%d')
           RELEASE_TAG=$(date '+%Y%m%d')
 
+          # delete old release if present
+          response=$(
+            curl -L https://api.github.com/repos/$GITHUB_REPOSITORY/releases/tags/$RELEASE_TAG \
+              -H "Accept: application/vnd.github+json" \
+              -H "Authorization: Bearer ${{ secrets.REPO_ACCESS_TOKEN }}"\
+              -H "X-GitHub-Api-Version: 2022-11-28"
+          )
+          old_release_url=$(echo $response | jq -r .url)
+          if [ $old_release_url != null ] ; then
+            curl -L $old_release_url \
+              -X DELETE \
+              -H "Accept: application/vnd.github+json" \
+              -H "Authorization: Bearer ${{ secrets.REPO_ACCESS_TOKEN }}"\
+              -H "X-GitHub-Api-Version: 2022-11-28"
+          fi
+
           response=$(
             curl -L https://api.github.com/repos/$GITHUB_REPOSITORY/releases \
               -H 'Accept: application/vnd.github+json' \
               -H "Authorization: Bearer ${{ secrets.REPO_ACCESS_TOKEN }}" \
+              -H "X-GitHub-Api-Version: 2022-11-28" \
               -d "{\"tag_name\":\"$RELEASE_TAG\",\"target_commitish\":\"master\",\"name\":\"$RELEASE_TITLE\",\"body\":\"\",\"draft\":false,\"prerelease\":false,\"generate_release_notes\":false}"
           )
           echo $response
           upload_url=$(echo $response | jq -r .upload_url)
+          # remove suffix from returned url
           upload_url=${upload_url/{*/}
 
           for f in *.pdf ; do
-            url=${upload_url}?name=${f}
-            echo $url
+            url=${upload_url}?name=$(echo "$f" | sed -e 's/%/%25/g' -e 's/\+/%2B/g' -e 's/ /%20/g')
             curl -L $url \
               -X POST \
               -H "Accept: application/vnd.github+json" \
               -H "Authorization: Bearer ${{ secrets.REPO_ACCESS_TOKEN }}"\
               -H "Content-Type: application/octet-stream" \
+              -H "X-GitHub-Api-Version: 2022-11-28" \
               --data-binary "@$f"
           done
