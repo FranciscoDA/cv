@@ -31,3 +31,26 @@ jobs:
         with:
           name: cv_altoe_francisco
           path: cv_altoe_francisco_(${{ matrix.output-lang}}).pdf
+
+  publish_pdf:
+    needs:
+      - build_latex
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v3
+        with:
+          name: cv_altoe_francisco
+      - name: Set release name
+        id: release-setter
+        run: |
+          echo RELEASE_TITLE=$(date '+%Y-%m-%d %H:%M:%S') >> $GITHUB_OUTPUT
+          echo RELEASE_TAG=$(date '+%Y%m%dT%H%M%S') >> $GITHUB_OUTPUT
+      - name: Create release
+        uses: "marvinpinto/action-automatic-releases@latest"
+        with:
+          repo_token: "${{ secrets.REPO_ACCESS_TOKEN }}"
+          automatic_release_tag: ${{ steps.release-setter.output.RELEASE_TAG }}
+          prerelease: false
+          title: ${{ steps.release-setter.output.RELEASE_TITLE }}
+          files: |
+            *.pdf
