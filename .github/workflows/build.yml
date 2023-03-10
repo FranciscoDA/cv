@@ -49,7 +49,7 @@ jobs:
         uses: "marvinpinto/action-automatic-releases@latest"
         with:
           repo_token: "${{ secrets.REPO_ACCESS_TOKEN }}"
-          automatic_release_tag: ${{ steps.release-setter.output.RELEASE_TAG }}
+          automatic_release_tag: latest
           prerelease: false
           title: ${{ steps.release-setter.output.RELEASE_TITLE }}
           files: |
