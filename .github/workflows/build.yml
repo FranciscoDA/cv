@@ -6,7 +6,7 @@ on:
       - main
     paths:
       - cv.tex
-      - .github/*
+      - .github/**
 jobs:
   build_latex:
     runs-on: ubuntu-latest
@@ -37,6 +37,7 @@ jobs:
         with:
           name: cv_altoe_francisco
           path: cv_altoe_francisco_${{ matrix.output-lang }}.pdf
+          retention-days: 2
 
   publish_pdf:
     needs:
