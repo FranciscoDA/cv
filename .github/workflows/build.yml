@@ -4,6 +4,9 @@ on:
     branches:
       - master
       - main
+    paths:
+      - cv.tex
+      - .github/*
 jobs:
   build_latex:
     runs-on: ubuntu-latest
