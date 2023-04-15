@@ -10,8 +10,9 @@ for output_lang in en+es en es ; do
 		fi
 		commands="\\def\\outputlang$lang{$val}$commands"
 	done
-	echo $commands
-	if ! latexmk -c -jobname="cv altoe francisco ($output_lang)" -usepretex="$commands" -lualatex ; then
+	if ! latexmk -jobname="cv altoe francisco ($output_lang)" -usepretex="$commands" -lualatex ; then
 		break
+	else
+		latexmk -c -jobname="cv altoe francisco ($output_lang)"
 	fi
 done
