@@ -7,6 +7,11 @@ on:
     paths:
       - cv.tex
       - .github/**
+
+permissions:
+  contents: write
+  pull-requests: write
+
 jobs:
   build_latex:
     runs-on: ubuntu-latest
