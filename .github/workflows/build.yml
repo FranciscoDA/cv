@@ -86,8 +86,10 @@ jobs:
           # remove suffix from returned url
           upload_url=${upload_url/{*/}
 
-          for f in *.pdf ; do
-            url=${upload_url}?name=$(echo "$f" | sed -e 's/%/%25/g' -e 's/\+/%2B/g' -e 's/ /%20/g')
+          shopt -s globstar
+          for f in **/*.pdf ; do
+            fname=$(basename "$f")
+            url=${upload_url}?name=$(echo "$fname" | sed -e 's/%/%25/g' -e 's/\+/%2B/g' -e 's/ /%20/g')
             curl -L $url \
               -X POST \
               -H "Accept: application/vnd.github+json" \
